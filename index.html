@@ -183,8 +183,33 @@ section h2,.sec-row h2{font-size:clamp(2.1rem,4vw,3.5rem);font-weight:800;letter
 @keyframes successPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent-bright) 55%,transparent)}100%{box-shadow:0 0 0 16px transparent}}
 .pulsed{animation:successPulse .6s var(--ease-out)}
 footer{padding:var(--s4) 0 var(--s5);color:var(--ink-3);font-size:.9rem}
+
+/* Text animations (Umar's mapping, live 24 Nov 2026): Blur=hero, Fold=Work,
+   Split=Services, Shiny=Process, Scroll Reveal=About. Initial states are
+   scoped under .jsa (set by an inline head script) so no-JS stays visible. */
+.jsa #heroH1 .bw{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(16px);
+  transition:opacity .9s cubic-bezier(.22,1,.36,1),filter .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.jsa #heroH1.played .bw{opacity:1;filter:blur(0);transform:translateY(0)}
+.jsa .fold-h .fd-line{display:block;perspective:900px}
+.jsa .fold-h .fd-inner{display:block;transform-origin:50% 0%;transform:rotateX(88deg);filter:brightness(.35);
+  transition:transform .95s cubic-bezier(.19,1,.22,1),filter .95s cubic-bezier(.19,1,.22,1)}
+.jsa .fold-h .fd-line:nth-child(even) .fd-inner{transform-origin:50% 100%}
+.jsa .fold-h:not(.played) .fd-line:nth-child(even) .fd-inner{transform:rotateX(-88deg)}
+.jsa .fold-h.played .fd-inner{transform:rotateX(0deg);filter:brightness(1)}
+.jsa .split-h .mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
+.jsa .split-h .sw{display:inline-block;transform:translateY(115%);transition:transform .85s cubic-bezier(.22,1,.36,1)}
+.jsa .split-h.played .sw{transform:translateY(0)}
+.shiny-h{--shine-band:#7FBF9B;
+  background:linear-gradient(110deg,var(--ink) 42%,var(--shine-band) 50%,var(--ink) 58%);
+  background-size:230% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shineSweepLive 5.5s linear infinite}
+html[data-theme="dark"] .shiny-h{--shine-band:#FFFFFF}
+@keyframes shineSweepLive{0%{background-position:130% 0}100%{background-position:-130% 0}}
+.jsa #about .rw{opacity:.13;filter:blur(3px);transition:opacity .35s ease,filter .35s ease}
+.jsa #about .rw.on{opacity:1;filter:blur(0)}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
+<script>document.documentElement.classList.add('jsa')</script>
 </head>
 <body>
 
@@ -209,7 +234,7 @@ footer{padding:var(--s4) 0 var(--s5);color:var(--ink-3);font-size:.9rem}
   <div class="hero-grid">
     <div>
       <div class="kicker eyebrow rv" style="--d:0ms"><i></i>Full-Stack Web Developer</div>
-      <h1 class="rv" style="--d:80ms">Websites that turn visitors into customers.</h1>
+      <h1 id="heroH1">Websites that turn visitors into customers.</h1>
       <p class="lede rv" style="--d:170ms">I’m Umar Sosal, a web developer in Nigeria. I design and build business websites, online stores and custom web apps — and hand each one over ready to run, with a walkthrough so you are never guessing how it works.</p>
       <div class="status rv" style="--d:240ms"><i></i>Available for new projects — replies within one working day.</div>
       <div class="hero-cta rv" style="--d:310ms">
@@ -228,7 +253,7 @@ footer{padding:var(--s4) 0 var(--s5);color:var(--ink-3);font-size:.9rem}
   <div class="sec-row">
     <div>
       <div class="kicker rv" style="--d:0ms">Selected Projects</div>
-      <h2 class="rv" style="--d:60ms">Built to be used, not just looked at.</h2>
+      <h2 class="fold-h" id="workH2">Built to be used, not just looked at.</h2>
     </div>
     <p class="sec-note rv" style="--d:120ms">Working systems, not mockups. Click a project — it opens in place.</p>
   </div>
@@ -270,7 +295,7 @@ footer{padding:var(--s4) 0 var(--s5);color:var(--ink-3);font-size:.9rem}
 
 <section id="services"><div class="wrap">
   <div class="kicker rv" style="--d:0ms">What I Can Help With</div>
-  <h2 class="rv" style="--d:60ms">Useful work, thoughtfully made.</h2>
+  <h2 class="split-h" id="svcH2">Useful work, thoughtfully made.</h2>
   <div class="svc-grid">
     <div class="svc-card rv" style="--d:0ms">
       <h3>Business Websites</h3>
@@ -301,7 +326,7 @@ footer{padding:var(--s4) 0 var(--s5);color:var(--ink-3);font-size:.9rem}
 
 <section id="process"><div class="wrap">
   <div class="kicker rv" style="--d:0ms">How a Project Runs</div>
-  <h2 class="rv" style="--d:60ms">No surprises, from first message to handover.</h2>
+  <h2 class="shiny-h">No surprises, from first message to handover.</h2>
   <div class="steps">
     <div class="step rv" style="--d:0ms"><div class="n">01 / SCOPE</div><h3>Agreed in writing</h3><p>Pages, features and price are fixed before anything is built. A 50% deposit starts the work — the rest is due at handover.</p></div>
     <div class="step rv" style="--d:60ms"><div class="n">02 / BUILD</div><h3>You see it working</h3><p>The build comes in stages you can open and use — not screenshots of promises. Corrections happen while they are still cheap.</p></div>
@@ -313,12 +338,12 @@ footer{padding:var(--s4) 0 var(--s5);color:var(--ink-3);font-size:.9rem}
   <div class="about-grid">
     <div>
       <div class="kicker rv" style="--d:0ms">A Little About Me</div>
-      <h2 class="rv" style="--d:60ms">Learning the craft, one build at a time.</h2>
+      <h2 id="aboutH2">Learning the craft, one build at a time.</h2>
     </div>
     <div class="body">
-      <p class="rv" style="--d:120ms">I’m a Computer Science student developing my skills in frontend and full-stack web development. I enjoy the mix of visual design, styling, and programming logic that turns an idea into something people can actually use. <strong>My approach, in short:</strong> make it meaningful, make it intuitive, keep people in control, remove the friction, build for real life, and respect the details.</p>
+      <p id="aboutText">I’m a Computer Science student developing my skills in frontend and full-stack web development. I enjoy the mix of visual design, styling, and programming logic that turns an idea into something people can actually use. <strong>My approach, in short:</strong> make it meaningful, make it intuitive, keep people in control, remove the friction, build for real life, and respect the details.</p>
       <div class="skills">
-        <i class="rv" style="--d:150ms">JavaScript</i><i class="rv" style="--d:180ms">PHP</i><i class="rv" style="--d:210ms">SQL</i><i class="rv" style="--d:240ms">HTML</i><i class="rv" style="--d:270ms">CSS</i><i class="rv" style="--d:300ms">Responsive Design</i><i class="rv" style="--d:330ms">UI/UX Thinking</i><i class="rv" style="--d:360ms">Python</i>
+        <i class="rw">JavaScript</i><i class="rw">PHP</i><i class="rw">SQL</i><i class="rw">HTML</i><i class="rw">CSS</i><i class="rw">Responsive Design</i><i class="rw">UI/UX Thinking</i><i class="rw">Python</i>
       </div>
     </div>
   </div>
@@ -419,6 +444,66 @@ form.addEventListener('submit', e => {
   sendBtn.classList.remove('pulsed'); void sendBtn.offsetWidth; sendBtn.classList.add('pulsed');
   note.textContent = 'WhatsApp opened with your message ready — just press send there. Rather email? sosalarab2006@gmail.com';
 });
+</script>
+<script>
+// Text animations — Blur (hero), Fold (Work), Split (Services), Scroll Reveal (About)
+(function () {
+  var h1 = document.getElementById('heroH1');
+  if (h1) {
+    h1.innerHTML = h1.textContent.trim().split(/\s+/)
+      .map(function (w, i) { return '<span class="bw" style="transition-delay:' + (i * 110) + 'ms">' + w + '</span>'; }).join(' ');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { h1.classList.add('played'); }); });
+  }
+  var workH2 = document.getElementById('workH2');
+  if (workH2) {
+    var lines = ['Built to be used,', 'not just', 'looked at.'];
+    workH2.innerHTML = lines.map(function (t, i) {
+      return '<span class="fd-line"><span class="fd-inner" style="transition-delay:' + (i * 150) + 'ms">' + t + '</span></span>';
+    }).join('');
+    var ioF = new IntersectionObserver(function (es) { es.forEach(function (e) {
+      if (e.isIntersecting) { workH2.classList.add('played'); ioF.disconnect(); } }); }, { threshold: .4 });
+    ioF.observe(workH2);
+  }
+  var svcH2 = document.getElementById('svcH2');
+  if (svcH2) {
+    svcH2.innerHTML = svcH2.textContent.trim().split(/\s+/)
+      .map(function (w, i) { return '<span class="mask"><span class="sw" style="transition-delay:' + (i * 70) + 'ms">' + w + '</span></span>'; }).join(' ');
+    var ioS = new IntersectionObserver(function (es) { es.forEach(function (e) {
+      if (e.isIntersecting) { svcH2.classList.add('played'); ioS.disconnect(); } }); }, { threshold: .4 });
+    ioS.observe(svcH2);
+  }
+  var aboutSec = document.getElementById('about');
+  if (aboutSec) {
+    function wrapWords(el) {
+      Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+        if (node.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          node.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+            var sp = document.createElement('span'); sp.className = 'rw'; sp.textContent = part;
+            frag.appendChild(sp);
+          });
+          el.replaceChild(frag, node);
+        } else if (node.nodeType === 1) { wrapWords(node); }
+      });
+    }
+    var ah = document.getElementById('aboutH2'); if (ah) wrapWords(ah);
+    var at = document.getElementById('aboutText'); if (at) wrapWords(at);
+    var units = aboutSec.querySelectorAll('.rw');
+    function reveal() {
+      var r = aboutSec.getBoundingClientRect(), vh = window.innerHeight;
+      var p = Math.min(1, Math.max(0, (vh * .9 - r.top) / (r.height + vh * .3)));
+      var n = Math.floor(p * units.length);
+      units.forEach(function (u, i) { u.classList.toggle('on', i < n); });
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { reveal(); ticking = false; }); }
+    }, { passive: true });
+    reveal();
+  }
+})();
 </script>
 </body>
 </html>
